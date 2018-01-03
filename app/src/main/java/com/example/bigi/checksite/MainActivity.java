@@ -13,15 +13,12 @@ import android.view.View;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
-    AlarmManager alarmManager;
-    PendingIntent pendingIntent;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-
 
         startAlarm();
 
