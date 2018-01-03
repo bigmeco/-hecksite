@@ -13,7 +13,7 @@ import android.support.v7.app.NotificationCompat;
 
 public class AlarmNotificationReceiver extends BroadcastReceiver {
     private  Context contex;
-    Intent intent;
+    private Intent intent;
     @Override
     public void onReceive(Context context, Intent intent) {
         this.contex = context;
