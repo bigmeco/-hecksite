@@ -4,6 +4,7 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import java.util.Calendar;
@@ -21,45 +22,20 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
-//
-//        Intent myIntent = new Intent(getBaseContext(),
-//                MyService.class);
-//
-//        PendingIntent pendingIntent = PendingIntent.getBroadcast(
-//                getBaseContext(), 0, myIntent, 0);
-//
-//        Calendar calendar = Calendar.getInstance();
-//        calendar.setTimeInMillis(System.currentTimeMillis());
-//        calendar.add(Calendar.SECOND, 10);
-//        long interval = 60 * 1000; //
-//        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,
-//                calendar.getTimeInMillis(), interval, pendingIntent);
-//        finish();
 
-
+        startAlarm();
 
     }
 
 
 
-    public void setOneTimeAlarm() {
-        Intent intent = new Intent(this, MyService.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0,
-                intent, PendingIntent.FLAG_ONE_SHOT);
-        alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis()
-                + (5 * 1000), pendingIntent);
-    }
+    private void startAlarm() {
+        AlarmManager manager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+        Intent myIntent;
+        PendingIntent pendingIntent;
+            myIntent = new Intent(MainActivity.this,AlarmNotificationReceiver.class);
+            pendingIntent = PendingIntent.getBroadcast(this,0,myIntent,0);
 
-    public void setRepeatingAlarm() {
-        Intent intent = new Intent(this, MyService.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0,
-                intent, PendingIntent.FLAG_CANCEL_CURRENT);
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,
-                System.currentTimeMillis(), (5 * 1000), pendingIntent);
-    }
-
-    public void onClice(View view) {
-        setRepeatingAlarm();
-        System.out.println("fdgsdfgd");
+            manager.setRepeating(AlarmManager.RTC_WAKEUP,SystemClock.elapsedRealtime()+3000,60*1000,pendingIntent);
     }
 }
