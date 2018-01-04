@@ -7,16 +7,17 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
+import java.util.Iterator;
 import java.util.Set;
 
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 
@@ -24,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences mSettings;
     private Set<String> ret;
     private ListView listView;
-    private ArrayAdapter<String> adapter;
+    private ArrayList<UrlPojo> data= new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,18 +33,18 @@ public class MainActivity extends AppCompatActivity {
         mSettings = getSharedPreferences("Adresa", Context.MODE_PRIVATE);
         startAlarm();
         listView = (ListView)findViewById(R.id.listUrl);
-
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         ret = mSettings.getStringSet("strSetKey", new HashSet<String>());
+        Iterator<String> iterator = ret.iterator();
+        while (iterator.hasNext()) {
+            data.add(new UrlPojo(iterator.next(),"11", Color.RED));
+        }
 
-        adapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_list_item_1, ret);
-
-        listView.setAdapter(adapter);
+        listView.setAdapter(new UrlAdapter(this, data));
     }
 
     private void startAlarm() {
@@ -75,7 +76,8 @@ public class MainActivity extends AppCompatActivity {
                         SharedPreferences.Editor e = mSettings.edit();
                         e.putStringSet("strSetKey", catnames);
                         e.apply();
-                        adapter.notifyDataSetChanged();
+
+                        data.add(new UrlPojo(rating.getText().toString(),"11", Color.RED));
 
                         dialog.dismiss();
 

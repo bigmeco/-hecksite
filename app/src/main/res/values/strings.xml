@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Checksite</string>
     <string name="url">Url</string>
+    <string name="status">Статус:</string>
 </resources>
