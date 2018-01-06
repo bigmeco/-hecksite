@@ -57,11 +57,12 @@ class UrlAdapter extends BaseAdapter {
             vi = inflater.inflate(R.layout.list_url, null);
         TextView textNameUrl = (TextView) vi.findViewById(R.id.textNameUrl);
         TextView status = (TextView) vi.findViewById(R.id.status);
-        ImageView delite = (ImageView) vi.findViewById(R.id.delite);
+
         ConstraintLayout colorStatus = (ConstraintLayout) vi.findViewById(R.id.colorStatus);
         textNameUrl.setText(data.get(position).getUrl());
         status.setText(context.getResources().getString(R.string.status)+ data.get(position).getStatus());
         colorStatus.setBackgroundColor(data.get(position).getColor());
+
 
         return vi;
     }
