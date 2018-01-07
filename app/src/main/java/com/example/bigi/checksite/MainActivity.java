@@ -22,6 +22,12 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 public class MainActivity extends AppCompatActivity {
     private SharedPreferences mSettings;
     private Set<String> ret;
@@ -58,8 +64,26 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        }
 
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://yandex.ru/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        Zapros userService = retrofit.create(Zapros.class);
+        userService.getLog().enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                System.out.println(response.code());
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+
+            }
+        });
+
+    }
 
 
 
