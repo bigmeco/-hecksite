@@ -17,6 +17,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.stream.JsonReader;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -29,7 +33,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
-    private SharedPreferences mSettings;
+    public SharedPreferences mSettings;
     private Set<String> ret;
     private ListView listView;
     private ArrayList<UrlPojo> data = new ArrayList<>();
@@ -64,24 +68,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://yandex.ru/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        Zapros userService = retrofit.create(Zapros.class);
-        userService.getLog().enqueue(new Callback<String>() {
-            @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                System.out.println(response.code());
-            }
-
-            @Override
-            public void onFailure(Call<String> call, Throwable t) {
-
-            }
-        });
 
     }
 

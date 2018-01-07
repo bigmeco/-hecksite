@@ -10,6 +10,6 @@ import retrofit2.http.GET;
  */
 
 public interface Zapros {
-    @GET("")
+    @GET("/")
     Call<String> getLog();
 }
