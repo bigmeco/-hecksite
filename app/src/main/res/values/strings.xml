@@ -4,4 +4,6 @@
     <string name="status">Статус:</string>
     <string name="add">Добавить</string>
     <string name="cancel">Отмена</string>
+    <string name="sit">Сайт: </string>
+
 </resources>

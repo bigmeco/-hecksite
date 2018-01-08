@@ -9,10 +9,10 @@ import android.graphics.Color;
 public class UrlPojo {
 
     String url;
-    String status;
+    int status;
     int color;
 
-    public UrlPojo(String url, String status, int color) {
+    public UrlPojo(String url, int status, int color) {
         this.url = url;
         this.status = status;
         this.color = color;
@@ -26,11 +26,11 @@ public class UrlPojo {
         this.url = url;
     }
 
-    public String getStatus() {
+    public int getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(int status) {
         this.status = status;
     }
 

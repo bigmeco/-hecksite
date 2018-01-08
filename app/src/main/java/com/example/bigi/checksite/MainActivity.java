@@ -72,7 +72,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -91,10 +90,20 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void startListUrl() {
+        int t;
         ret = mSettings.getStringSet("strSetKey", new HashSet<String>());
         Iterator<String> iterator = ret.iterator();
         while (iterator.hasNext()) {
-            data.add(new UrlPojo(iterator.next(), "11", Color.RED));
+            String ur = iterator.next();
+            if (mSettings.getInt(ur + "/", 0)==200) {
+                t = Color.GREEN;
+            }else if(mSettings.getInt(ur + "/", 0)==0){
+                t = Color.WHITE;
+            } else {
+                t = Color.RED;
+            }
+
+            data.add(new UrlPojo(ur, mSettings.getInt(ur + "/", 0), t));
         }
         listView.setAdapter(new UrlAdapter(this, data));
     }
@@ -119,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
                         e.putStringSet("strSetKey", catnames);
                         e.apply();
 
-                        data.add(new UrlPojo(rating.getText().toString(), "11", Color.RED));
+                        data.add(new UrlPojo(rating.getText().toString(), 0, Color.RED));
 
                         dialog.dismiss();
 

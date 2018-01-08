@@ -26,17 +26,21 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 public class AlarmNotificationReceiver extends BroadcastReceiver {
-    private  Context contex;
+    private Context contex;
     private Intent intent;
+
     private SharedPreferences mSettings;
+
     @Override
     public void onReceive(Context context, Intent intent) {
         this.contex = context;
         this.intent = intent;
+        mSettings = context.getSharedPreferences("Adresa", Context.MODE_PRIVATE);
         Zapros();
 
 
     }
+
     private void UrlZp(String next) {
         Gson gson = new GsonBuilder()
                 .setLenient()
@@ -51,58 +55,64 @@ public class AlarmNotificationReceiver extends BroadcastReceiver {
         userService.getLog().enqueue(new Callback<String>() {
                                          @Override
                                          public void onResponse(Call<String> call, Response<String> response) {
-                                             System.out.println(response.code()==200);
+//
+                                             if (!(response.code() == 200)) {
+                                                 Notifi(call, response);
+
+                                             } else {}
+                                             SharedPreferences.Editor e = mSettings.edit();
+                                             e.putInt(String.valueOf(call.request().url()), response.code());
+
+                                             System.out.println(String.valueOf(call.request().url()));
+                                             e.apply();
                                          }
 
                                          @Override
                                          public void onFailure(Call<String> call, Throwable t) {
-                                             System.out.println(t.getMessage()+"  " );
+                                             NotifiErr(call, t);
                                          }
                                      }
         );
     }
 
+
     private void Zapros() {
 
-//        Iterator<String> iterator =  mSettings.getStringSet("strSetKey", new HashSet<String>()).iterator();
-//        while (iterator.hasNext()) {
-//            UrlZp(iterator.next());
-//        }
+        Iterator<String> iterator = mSettings.getStringSet("strSetKey", new HashSet<String>()).iterator();
+        while (iterator.hasNext()) {
+            UrlZp(iterator.next());
+        }
 
-//        Gson gson = new GsonBuilder()
-//                .setLenient()
-//                .create();
-//
-//        Retrofit retrofit = new Retrofit.Builder()
-//                .baseUrl("http://developer.alexanderklimov.ru")
-//                .addConverterFactory(GsonConverterFactory.create(gson))
-//                .build();
-//
-//        Zapros userService = retrofit.create(Zapros.class);
-//        userService.getLog().enqueue(new Callback<String>() {
-//                                         @Override
-//                                         public void onResponse(Call<String> call, Response<String> response) {
-//                                             System.out.println(response.code()==200);
-//                                         }
-//
-//                                         @Override
-//                                         public void onFailure(Call<String> call, Throwable t) {
-//                                             System.out.println(t.getMessage()+"  " );
-//                                         }
-//                                     }
-//        );
 
+    }
+
+    private void Notifi(Call<String> call, Response<String> response) {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(contex);
         builder.setAutoCancel(true)
                 .setDefaults(Notification.DEFAULT_ALL)
                 .setWhen(System.currentTimeMillis())
                 .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentTitle("Alarm actived!")
-                .setContentText("THIS IS MY ALARM")
+                .setContentText(contex.getResources().getString(R.string.status) + " " + response.code())
+                .setContentTitle(contex.getResources().getString(R.string.sit) + " " + call.request().url())
                 .setDefaults(Notification.DEFAULT_LIGHTS | Notification.DEFAULT_SOUND)
-                .setContentInfo("Info");
+                .setContentInfo(contex.getResources().getString(R.string.status) + response.code());
 
-        NotificationManager notificationManager = (NotificationManager)contex.getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(1,builder.build());
+        NotificationManager notificationManager = (NotificationManager) contex.getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.notify(1, builder.build());
     }
+
+    private void NotifiErr(Call<String> call, Throwable t) {
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(contex);
+        builder.setAutoCancel(true)
+                .setDefaults(Notification.DEFAULT_ALL)
+                .setWhen(System.currentTimeMillis())
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentTitle(contex.getResources().getString(R.string.sit) + " " + call.request().url())
+                .setContentText(t.getMessage())
+                .setDefaults(Notification.DEFAULT_LIGHTS | Notification.DEFAULT_SOUND);
+
+        NotificationManager notificationManager = (NotificationManager) contex.getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.notify(1, builder.build());
+    }
+
 }
