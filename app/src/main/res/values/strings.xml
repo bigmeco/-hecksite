@@ -1,9 +1,3 @@
 <resources>
     <string name="app_name">Checksite</string>
-    <string name="url">Url</string>
-    <string name="status">Статус:</string>
-    <string name="add">Добавить</string>
-    <string name="cancel">Отмена</string>
-    <string name="sit">Сайт: </string>
-
 </resources>
