@@ -11,26 +11,33 @@ import android.webkit.WebViewClient
 import io.realm.Realm
 import kotlinx.android.synthetic.main.fragment_lista.view.*
 
-class ListSitesAdapter (val items: List<MyUrl>, val listener: () -> Unit) : RecyclerView.Adapter<ListSitesAdapter.ViewHolder>() {
+class ListSitesAdapter(val items: List<MyUrl>, val listener: () -> Unit) : RecyclerView.Adapter<ListSitesAdapter.ViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.fragment_lista, parent, false))
 
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) = holder.bind(items[position], listener)
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) = holder.bind(items[position],holder, listener)
 
     override fun getItemCount() = items.size
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(item: MyUrl, listener: () -> Unit) = with(itemView) {
-                    WebUrl.webViewClient = object : WebViewClient() {
-            override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
-                view.loadUrl(url)
-                return true
+        fun bind(item: MyUrl,holder: ViewHolder, listener: () -> Unit) = with(itemView) {
+            Url.text = item.url
+            holder.itemView.WebUrl.webViewClient = object : WebViewClient() {
+                override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
+                    view.loadUrl(url)
+                    println("hello")
+                    return true
+                }
             }
-        }
-        WebUrl.loadUrl(item.url)
+            //holder.webview.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY)
+            holder.itemView.WebUrl.loadUrl(item.url)
+
+
         }
 
     }
+
+
 }

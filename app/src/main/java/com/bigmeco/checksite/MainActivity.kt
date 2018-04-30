@@ -28,10 +28,11 @@ class MainActivity : AppCompatActivity() {
             urlListView!!.adapter.notifyDataSetChanged()
         })
 
-//        addAction.setOnClickListener {
-//            val intent = Intent(this, AddSiteActivity::class.java)
-//            startActivity(intent)
-//        }
+
+        plusButton.setOnClickListener {
+            val intent = Intent(this, AddSiteActivity::class.java)
+            startActivity(intent)
+        }
     }
 
 

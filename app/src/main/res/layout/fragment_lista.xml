@@ -60,7 +60,9 @@
                 android:layout_height="180dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="@+id/frameLayout2"
                 app:layout_constraintTop_toTopOf="parent" />
+
 
             <FrameLayout
                 android:id="@+id/frameLayout2"
