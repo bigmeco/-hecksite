@@ -1,41 +1,38 @@
 package com.bigmeco.checksite
 
 import android.annotation.SuppressLint
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
+import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_lista.*
-import android.webkit.WebSettings
-import android.webkit.WebView
-import android.webkit.WebViewClient
-
-
-
+import android.content.Intent
+import android.support.v7.widget.Toolbar
+import android.view.Menu
+import android.view.View
 
 
 class MainActivity : AppCompatActivity() {
 
-    @SuppressLint("SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.fragment_lista)
-
-        // указываем страницу загрузки
-        WebUrl.webViewClient = object : WebViewClient() {
-            override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
-                view.loadUrl(url);
-                println("hello")
-                return true
-            }
-        }
-        WebUrl.loadUrl("http://google.com")
-  // указываем страницу загрузки
+        setContentView(R.layout.activity_main)
+        val toolbar = findViewById<View>(R.id.toolbar) as Toolbar
+        setSupportActionBar(toolbar)
+        Realm.init(this)
 
 
-//        UrlListView.layoutManager = LinearLayoutManager(this)
-//        UrlListView.adapter = MyFilmAdapter(realm.where(MyFilm::class.java).findAll(), {
-//            topFilmList!!.adapter.notifyDataSetChanged()
-//        })
+        val realm: Realm = Realm.getDefaultInstance()
+        urlListView.layoutManager = LinearLayoutManager(this)
+        urlListView.adapter = ListSitesAdapter(realm.where(MyUrl::class.java).findAll(), {
+            urlListView!!.adapter.notifyDataSetChanged()
+        })
+
+//        addAction.setOnClickListener {
+//            val intent = Intent(this, AddSiteActivity::class.java)
+//            startActivity(intent)
+//        }
     }
+
+
 }
