@@ -68,7 +68,7 @@
                 android:id="@+id/frameLayout2"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:background="@color/backgroundColor"
+                android:background="#622b2b2b"
                 app:layout_constraintBottom_toBottomOf="@+id/WebUrl"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
