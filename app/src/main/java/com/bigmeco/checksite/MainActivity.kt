@@ -10,6 +10,8 @@ import android.content.Intent
 import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.View
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 
 
 class MainActivity : AppCompatActivity() {
@@ -28,7 +30,13 @@ class MainActivity : AppCompatActivity() {
             urlListView!!.adapter.notifyDataSetChanged()
         })
 
-
+//        Service.getSite("http://${item.url}").getSatys()
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribeOn(Schedulers.io())
+//                .subscribe({ result ->
+//                }, { error ->
+//                    error.printStackTrace()
+//                })
         plusButton.setOnClickListener {
             val intent = Intent(this, AddSiteActivity::class.java)
             startActivity(intent)

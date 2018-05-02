@@ -40,6 +40,7 @@ class ListSitesAdapter(val items: List<MyUrl>, val listener: () -> Unit) : Recyc
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(item: MyUrl, listener: () -> Unit) = with(itemView) {
             Url.text = item.url
+            statusView.text = item.workingBg
             WebUrl.webViewClient = object : WebViewClient() {
                 override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
                     view.loadUrl(url)
@@ -48,14 +49,7 @@ class ListSitesAdapter(val items: List<MyUrl>, val listener: () -> Unit) : Recyc
                 }
             }
                 WebUrl.loadUrl("http://${item.url}")
-                        // TODO забить и сделать отдельно в цыкле
-            Service.getSite("http://${item.url}").getSatys()
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribeOn(Schedulers.io())
-                    .subscribe({ result ->
-                    }, { error ->
-                        error.printStackTrace()
-                    })
+
 
 
 
