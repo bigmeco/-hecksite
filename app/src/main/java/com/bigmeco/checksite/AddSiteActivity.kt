@@ -9,6 +9,8 @@ import kotlinx.android.synthetic.main.activity_add_site.*
 import io.realm.RealmResults
 import io.realm.kotlin.createObject
 import android.provider.ContactsContract.CommonDataKinds.Email
+import android.view.View
+import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 
 
@@ -20,6 +22,7 @@ class AddSiteActivity : AppCompatActivity() {
         val realm: Realm = Realm.getDefaultInstance()
 
         okButton.setOnClickListener{
+            dialog.visibility = View.INVISIBLE
             val newUrl = MyUrl()
 
             newUrl.url = urlText.text.toString()

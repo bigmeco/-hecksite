@@ -12,6 +12,7 @@ import android.view.Menu
 import android.view.View
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import kotlinx.android.synthetic.main.activity_add_site.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -38,8 +39,16 @@ class MainActivity : AppCompatActivity() {
 //                    error.printStackTrace()
 //                })
         plusButton.setOnClickListener {
-            val intent = Intent(this, AddSiteActivity::class.java)
-            startActivity(intent)
+            dialog.visibility = View.VISIBLE
+
+        }
+        okButton.setOnClickListener {
+            dialog.visibility = View.INVISIBLE
+
+        }
+        fonButton.setOnClickListener {
+            dialog.visibility = View.INVISIBLE
+
         }
     }
 
