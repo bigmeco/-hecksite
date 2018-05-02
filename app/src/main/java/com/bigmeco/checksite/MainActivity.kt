@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
         urlListView.adapter = ListSitesAdapter(realm.where(MyUrl::class.java).findAll(), {
             urlListView!!.adapter.notifyDataSetChanged()
         })
-
+       var f =ArrayList<MyUrl>()
 //        Service.getSite("http://${item.url}").getSatys()
 //                .observeOn(AndroidSchedulers.mainThread())
 //                .subscribeOn(Schedulers.io())

@@ -40,7 +40,7 @@ class ListSitesAdapter(val items: List<MyUrl>, val listener: () -> Unit) : Recyc
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(item: MyUrl, listener: () -> Unit) = with(itemView) {
             Url.text = item.url
-            statusView.text = item.workingBg
+           // statusView.text = item.timeStatus.get(0)
             WebUrl.webViewClient = object : WebViewClient() {
                 override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
                     view.loadUrl(url)
