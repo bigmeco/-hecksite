@@ -10,6 +10,7 @@ import android.content.Intent
 import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.View
+import android.view.animation.AnimationUtils
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_add_site.*
@@ -30,7 +31,7 @@ class MainActivity : AppCompatActivity() {
         urlListView.adapter = ListSitesAdapter(realm.where(MyUrl::class.java).findAll(), {
             urlListView!!.adapter.notifyDataSetChanged()
         })
-       var f =ArrayList<MyUrl>()
+        var f = ArrayList<MyUrl>()
 //        Service.getSite("http://${item.url}").getSatys()
 //                .observeOn(AndroidSchedulers.mainThread())
 //                .subscribeOn(Schedulers.io())
@@ -38,16 +39,29 @@ class MainActivity : AppCompatActivity() {
 //                }, { error ->
 //                    error.printStackTrace()
 //                })
+
         plusButton.setOnClickListener {
             dialog.visibility = View.VISIBLE
-
+            var animation = AnimationUtils.loadAnimation(
+                    this, R.anim.translate)
+            urlForm.startAnimation(animation)
+            var animation2 = AnimationUtils.loadAnimation(
+                    this, R.anim.translate2)
+            okButton.startAnimation(animation2)
         }
+
         okButton.setOnClickListener {
+            val newUrl = MyUrl()
+            newUrl.url = urlText.text.toString()
+            realm.executeTransaction { realm ->
+            realm.insert(newUrl)
+            }
             dialog.visibility = View.INVISIBLE
 
         }
         fonButton.setOnClickListener {
             dialog.visibility = View.INVISIBLE
+
 
         }
     }
